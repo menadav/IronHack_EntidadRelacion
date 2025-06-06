@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-05-2025 a las 17:43:33
+-- Tiempo de generación: 06-06-2025 a las 16:34:30
 -- Versión del servidor: 11.2.2-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -33,9 +33,19 @@ CREATE TABLE `libros` (
   `autor` varchar(30) NOT NULL,
   `editorial` int(11) NOT NULL,
   `año de publicación` int(11) NOT NULL,
-  `categoria` int(11) NOT NULL,
+  `categoria` varchar(11) NOT NULL,
   `incluido_en_prestamo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `libros`
+--
+
+INSERT INTO `libros` (`id`, `titulo`, `autor`, `editorial`, `año de publicación`, `categoria`, `incluido_en_prestamo`) VALUES
+(1, 'Señor de los anillos', 'Tholken', 1, 1950, 'Fantasia', 1),
+(2, 'Señor de los anillos', 'Tholken', 11, 1950, 'Fantasia', 3),
+(3, 'Marina', 'Carlos Ruiz Zafron', 2, 2024, 'Infantil', 2),
+(4, 'Dune ', 'Felipe Reyes', 1, 1990, 'Ciencia ', 4);
 
 -- --------------------------------------------------------
 
@@ -45,10 +55,18 @@ CREATE TABLE `libros` (
 
 CREATE TABLE `multa` (
   `monto` float NOT NULL,
-  `descripcion` bigint(100) NOT NULL,
+  `descripcion` varchar(100) NOT NULL,
   `fecha de emision` int(11) NOT NULL,
   `id_prestamo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `multa`
+--
+
+INSERT INTO `multa` (`monto`, `descripcion`, `fecha de emision`, `id_prestamo`) VALUES
+(100, '121', 6, 3),
+(15, '20 dias tarde\r\n', 2, 3);
 
 -- --------------------------------------------------------
 
@@ -63,6 +81,14 @@ CREATE TABLE `prestamos` (
   `numero_socio` int(11) DEFAULT NULL,
   `fecha_real_devolucion` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `prestamos`
+--
+
+INSERT INTO `prestamos` (`fecha prestamo`, `fecha limite de devolucion`, `id_prestamo`, `numero_socio`, `fecha_real_devolucion`) VALUES
+('2025-03-11', '2025-06-28', 1, 4, '2025-06-27'),
+('2025-05-11', '2025-06-09', 3, 1, '2025-06-27');
 
 -- --------------------------------------------------------
 
@@ -79,6 +105,16 @@ CREATE TABLE `socio` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Volcado de datos para la tabla `socio`
+--
+
+INSERT INTO `socio` (`numero_socio`, `nombre_completo`, `direccion`, `correo`, `fecha_inscripcion`) VALUES
+(1, 'David Mena', 'C/bragança', 'insti.dmena@gmail.com', '2025-02-18'),
+(2, 'Daniel Suarez', 'Cerdanyola', 'danilasu@gmail.com', '2023-06-08'),
+(3, 'Ruben Vizarroso', 'c/margarita', 'rubenviza@gmail.com', '2016-06-17'),
+(4, 'Roger regor', 'Gracia', 'rogerfm@gmail.com', '2016-06-21');
+
+--
 -- Índices para tablas volcadas
 --
 
@@ -88,12 +124,6 @@ CREATE TABLE `socio` (
 ALTER TABLE `libros`
   ADD PRIMARY KEY (`id`) USING BTREE,
   ADD UNIQUE KEY `incluido_en_prestamo` (`incluido_en_prestamo`);
-
---
--- Indices de la tabla `multa`
---
-ALTER TABLE `multa`
-  ADD UNIQUE KEY `id_prestamo` (`id_prestamo`);
 
 --
 -- Indices de la tabla `prestamos`
@@ -116,23 +146,17 @@ ALTER TABLE `socio`
 -- AUTO_INCREMENT de la tabla `libros`
 --
 ALTER TABLE `libros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `prestamos`
 --
 ALTER TABLE `prestamos`
-  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `multa`
---
-ALTER TABLE `multa`
-  ADD CONSTRAINT `multa-prestamo` FOREIGN KEY (`id_prestamo`) REFERENCES `prestamos` (`id_prestamo`);
 
 --
 -- Filtros para la tabla `prestamos`
